@@ -1,0 +1,28 @@
+{
+  "name": "sweetspot",
+  "version": "1.0.0",
+  "description": "A fullstack MERN based stay listing and hosting aggregator platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chinmayaadiga10/SweetSpot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/chinmayaadiga10/SweetSpot/issues"
+  },
+  "homepage": "https://github.com/chinmayaadiga10/SweetSpot#readme",
+  "dependencies": {
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^9.9.4",
+    "path": "^0.12.7"
+  }
+}
