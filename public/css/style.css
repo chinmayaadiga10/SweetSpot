@@ -11,3 +11,22 @@
 .nav-link {
   color: #222222 !important;
 }
+
+.f-info-socials {
+  font-size: 1.25rem;
+}
+
+.f-info-links a {
+  text-decoration: none;
+  color: #222222;
+}
+
+.f-info {
+  height: 9rem;
+  background-color: #ebebeb;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
