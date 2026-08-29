@@ -46,6 +46,11 @@ app.get("/listings", async (req, res) => {
   res.render("listings/index.ejs", { allListings });
 });
 
+app.get("/listings/new", (req, res) => {
+  // res.send("new listing page is successfully opened");
+  res.render("listings/new.ejs");
+});
+
 app.get("/listings/:id", async (req, res) => {
   const { id } = req.params;
   console.log(id);
@@ -53,4 +58,13 @@ app.get("/listings/:id", async (req, res) => {
   console.log(listing);
   // res.send("let me see if working");
   res.render("listings/show.ejs", { listing });
+});
+
+app.post("/listings", async (req, res) => {
+  // const { title, description, image, price, location, country } = req.body;
+  const listing = req.body.listing;
+  console.log(listing);
+  const newListing = new Listing(listing);
+  await newListing.save();
+  res.redirect("/listings");
 });

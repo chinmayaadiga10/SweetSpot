@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SweetSpot</title>
+  </head>
+  <body>
+    <form method="POST" action="/listings">
+      <input
+        type="text"
+        name="listing[title]"
+        id="title"
+        placeholder="enter title"
+      />
+      <br />
+      <textarea
+        name="listing[description]"
+        id="description"
+        name="description"
+        id="description"
+      ></textarea>
+      <br />
+      <input
+        type="text"
+        placeholder="enter image URL/link"
+        name="listing[image]"
+        id="image"
+      />
+      <br />
+      <input
+        type="number"
+        placeholder="enter price"
+        name="listing[price]"
+        id="price"
+      />
+      <br />
+      <input
+        type="text"
+        placeholder="enter location"
+        name="listing[location]"
+        id="location"
+      />
+      <br />
+      <input
+        type="text"
+        placeholder="enter country"
+        name="listing[country]"
+        id="country"
+      />
+      <br />
+      <button type="submit">Create New Listing</button>
+    </form>
+  </body>
+</html>
