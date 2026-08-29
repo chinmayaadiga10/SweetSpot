@@ -39,3 +39,9 @@ app.get("/testListing", async (req, res) => {
   await sampleListing.save();
   res.send("testing successful");
 });
+
+//Main route - displays all listings
+app.get("/listings", async (req, res) => {
+  const allListings = await Listing.find({});
+  res.render("listings/index.ejs", { allListings });
+});
