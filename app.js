@@ -45,3 +45,12 @@ app.get("/listings", async (req, res) => {
   const allListings = await Listing.find({});
   res.render("listings/index.ejs", { allListings });
 });
+
+app.get("/listings/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  const listing = await Listing.findById(id);
+  console.log(listing);
+  // res.send("let me see if working");
+  res.render("listings/show.ejs", { listing });
+});
