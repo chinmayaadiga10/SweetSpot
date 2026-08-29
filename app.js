@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
+const Listing = require("./models/listing.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/sweetspot";
 
@@ -10,7 +11,7 @@ main()
   .catch((err) => console.log(err));
 
 async function main() {
-  mongoose.connect(MONGO_URL);
+  await mongoose.connect(MONGO_URL);
 }
 
 app.set("view engine", "ejs");
@@ -25,4 +26,16 @@ app.listen(port, () => {
 
 app.get("/", (req, res) => {
   res.send("home root working boss");
+});
+
+app.get("/testListing", async (req, res) => {
+  let sampleListing = new Listing({
+    title: "Beautiful Mountain View",
+    description: "Property with an excellent view of the mountain ranges ",
+    price: 1200,
+    location: "Himachal Pradesh",
+    country: "India",
+  });
+  await sampleListing.save();
+  res.send("testing successful");
 });
