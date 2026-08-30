@@ -6,6 +6,7 @@ const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utilities/wrapAsync.js");
+const ExpressError = require("./utilities/ExpressError.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/sweetspot";
 
@@ -35,17 +36,20 @@ app.get("/", (req, res) => {
   res.send("home root working boss");
 });
 
-app.get("/testListing", async (req, res) => {
-  let sampleListing = new Listing({
-    title: "Beautiful Mountain View",
-    description: "Property with an excellent view of the mountain ranges ",
-    price: 1200,
-    location: "Himachal Pradesh",
-    country: "India",
-  });
-  await sampleListing.save();
-  res.send("testing successful");
-});
+app.get(
+  "/testListing",
+  wrapAsync(async (req, res) => {
+    let sampleListing = new Listing({
+      title: "Beautiful Mountain View",
+      description: "Property with an excellent view of the mountain ranges ",
+      price: 1200,
+      location: "Himachal Pradesh",
+      country: "India",
+    });
+    await sampleListing.save();
+    res.send("testing successful");
+  }),
+);
 
 //Main route - displays all listings
 app.get("/listings", async (req, res) => {
@@ -58,19 +62,25 @@ app.get("/listings/new", (req, res) => {
   res.render("listings/new.ejs");
 });
 
-app.get("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  console.log(id);
-  const listing = await Listing.findById(id);
-  console.log(listing);
-  // res.send("let me see if working");
-  res.render("listings/show.ejs", { listing });
-});
+app.get(
+  "/listings/:id",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    const listing = await Listing.findById(id);
+    console.log(listing);
+    // res.send("let me see if working");
+    res.render("listings/show.ejs", { listing });
+  }),
+);
 
 app.post(
   "/listings",
   wrapAsync(async (req, res, next) => {
     // const { title, description, image, price, location, country } = req.body;
+    if (!req.body) {
+      throw new ExpressError(400, "Bad Request !");
+    }
     const listing = req.body.listing;
     console.log(listing);
     const newListing = new Listing(listing);
@@ -79,26 +89,43 @@ app.post(
   }),
 );
 
-app.get("/listings/:id/edit", async (req, res) => {
-  const { id } = req.params;
-  const listing = await Listing.findById(id);
-  console.log(listing);
-  res.render("listings/edit.ejs", { listing });
-});
+app.get(
+  "/listings/:id/edit",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+    console.log(listing);
+    res.render("listings/edit.ejs", { listing });
+  }),
+);
 
-app.put("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-  res.redirect(`/listings/${id}`);
-});
+app.put(
+  "/listings/:id",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    if (!req.body) {
+      throw new ExpressError(400, "Bad Request !");
+    }
+    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+    res.redirect(`/listings/${id}`);
+  }),
+);
 
-app.delete("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  let deletedListing = await Listing.findByIdAndDelete(id);
-  console.log(deletedListing);
-  res.redirect("/listings");
+app.delete(
+  "/listings/:id",
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+    let deletedListing = await Listing.findByIdAndDelete(id);
+    console.log(deletedListing);
+    res.redirect("/listings");
+  }),
+);
+
+app.all("/*splat", (req, res, next) => {
+  next(new ExpressError(404, "Page Not Found !"));
 });
 
 app.use((err, req, res, next) => {
-  res.send("something went wrong");
+  let { statusCode = 404, message = "Invalid Request !" } = err;
+  res.status(statusCode).send(message);
 });
