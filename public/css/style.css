@@ -79,3 +79,15 @@ body {
   background-color: #fe424d !important;
   border: none !important;
 }
+
+.show-image {
+  height: 45vh;
+}
+
+.show-actions {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+  justify-content: center;
+  width: 43vw;
+}
