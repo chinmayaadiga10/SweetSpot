@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const Listing = require("./models/listing.js");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utilities/wrapAsync.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/sweetspot";
 
@@ -66,14 +67,17 @@ app.get("/listings/:id", async (req, res) => {
   res.render("listings/show.ejs", { listing });
 });
 
-app.post("/listings", async (req, res) => {
-  // const { title, description, image, price, location, country } = req.body;
-  const listing = req.body.listing;
-  console.log(listing);
-  const newListing = new Listing(listing);
-  await newListing.save();
-  res.redirect("/listings");
-});
+app.post(
+  "/listings",
+  wrapAsync(async (req, res, next) => {
+    // const { title, description, image, price, location, country } = req.body;
+    const listing = req.body.listing;
+    console.log(listing);
+    const newListing = new Listing(listing);
+    await newListing.save();
+    res.redirect("/listings");
+  }),
+);
 
 app.get("/listings/:id/edit", async (req, res) => {
   const { id } = req.params;
@@ -93,4 +97,8 @@ app.delete("/listings/:id", async (req, res) => {
   let deletedListing = await Listing.findByIdAndDelete(id);
   console.log(deletedListing);
   res.redirect("/listings");
+});
+
+app.use((err, req, res, next) => {
+  res.send("something went wrong");
 });
