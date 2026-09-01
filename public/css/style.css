@@ -91,3 +91,11 @@ body {
   justify-content: center;
   width: 43vw;
 }
+
+.line {
+  width: 60vw;
+  background-color: #222222;
+  height: 0.2rem;
+  opacity: 0.1;
+  margin: 1rem auto;
+}
