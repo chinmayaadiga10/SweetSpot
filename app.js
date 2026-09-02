@@ -8,6 +8,7 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utilities/wrapAsync.js");
 const ExpressError = require("./utilities/ExpressError.js");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const sessionOptions = {
   secret: "ultratopsecret",
@@ -21,6 +22,13 @@ const sessionOptions = {
 };
 
 app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.local.error = req.flash("error");
+  next();
+});
 
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
