@@ -9,6 +9,9 @@ const wrapAsync = require("./utilities/wrapAsync.js");
 const ExpressError = require("./utilities/ExpressError.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/user.js");
 
 const sessionOptions = {
   secret: "ultratopsecret",
@@ -24,10 +27,26 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
-  res.local.error = req.flash("error");
+  res.locals.error = req.flash("error");
   next();
+});
+
+app.get("/demouser", async (req, res) => {
+  let fakeUser = new User({
+    email: "fakeuser@gmail.com",
+    username: "fake_user",
+  });
+  let registeredUser = await User.register(fakeUser, "helloworld");
+  res.send(registeredUser);
 });
 
 const listings = require("./routes/listing.js");
