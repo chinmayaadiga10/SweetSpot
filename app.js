@@ -49,8 +49,9 @@ app.get("/demouser", async (req, res) => {
   res.send(registeredUser);
 });
 
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/sweetspot";
 
@@ -76,8 +77,9 @@ app.listen(port, () => {
   console.log(`server is listening on ${port}`);
 });
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+app.use("/listings", listingsRouter);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/", userRouter);
 
 app.get("/", (req, res) => {
   res.send("home root working boss");
