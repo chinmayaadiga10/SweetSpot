@@ -1,4 +1,7 @@
 const Listing = require("./models/listing");
+const Review = require("./models/review");
+const ExpressError = require("./utilities/ExpressError");
+const { listingSchema, reviewSchema } = require("./schema");
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -21,7 +24,7 @@ module.exports.isOwner = async (req, res, next) => {
   let listing = await Listing.findById(id);
   if (!listing.owner._id.equals(res.locals.currentUser._id)) {
     req.flash("err", "You Don't have permission to edit");
-    return res.redirect(`listings/${id}`);
+    return res.redirect(`/listings/${id}`);
   }
   next();
 };
@@ -40,8 +43,17 @@ module.exports.validateReview = (req, res, next) => {
   let { error } = reviewSchema.validate(req.body);
   if (error) {
     let errorMessage = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(404, errorMessage);
+    throw new ExpressError(400, errorMessage);
   } else {
     next();
+  }
+};
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+  const { id, reviewId } = req.params;
+  let review = await Review.findById(reviewId);
+  if (!review.author.equals(res.locals.currentUser._id)) {
+    req.flash("err", "You don't have access to delete this review !");
+    return res.redirect(`/listings/${id}`);
   }
 };
