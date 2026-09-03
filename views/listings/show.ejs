@@ -22,18 +22,19 @@
     </div>
   </div>
 </div>
-
-<div class="show-actions">
-  <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark me-5"
-    >Edit this listing</a
-  >
-  <form action="/listings/<%=listing._id%>?_method=DELETE" method="POST">
-    <button type="submit" class="btn btn-danger">Delete this listing</button>
-  </form>
-</div>
-
-<div class="line"></div>
-
+<% if (currentUser&&currentUser._id.equals(listing.owner._id)){%>
+    <div class="show-actions">
+        <a href="/listings/<%=listing._id%>/edit" class="btn btn-dark me-5"
+            >Edit this listing</a
+            >
+            <form action="/listings/<%=listing._id%>?_method=DELETE" method="POST">
+                <button type="submit" class="btn btn-danger">Delete this listing</button>
+            </form>
+    </div>
+<%}%>
+        
+        <div class="line"></div>
+        
 <div class="col-8 offset-2">
   <h3 class="mb-5 mt-5">Leave a Review</h3>
   <form action="/listings/<%=listing._id%>/reviews" method="POST" novalidate class="needs-validation">
