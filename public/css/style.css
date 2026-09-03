@@ -70,7 +70,7 @@ body {
 }
 
 .listing-card:hover {
-  transform: scale(1.07);
+  transform: scale(1.03);
 }
 
 .add-btn {
