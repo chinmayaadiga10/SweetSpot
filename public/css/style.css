@@ -76,7 +76,8 @@ body {
 .add-btn {
   margin-top: 1rem;
   margin-bottom: 2rem;
-  background-color: #fe424d !important;
+  background-color: cyan !important;
+  color: black !important;
   border: none !important;
 }
 
@@ -150,4 +151,10 @@ body {
   text-decoration: none;
   color: #000;
   opacity: 0.8;
+}
+
+#title {
+  color: cyan;
+  /* background-color: black; */
+  font-size: 1.5rem;
 }
