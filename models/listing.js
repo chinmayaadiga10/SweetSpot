@@ -33,6 +33,21 @@ const listingSchema = new Schema({
     type: String,
     required: true,
   },
+  category: {
+    type: String,
+    enum: [
+      "trending",
+      "beach",
+      "cabins",
+      "pools",
+      "rooms",
+      "castle",
+      "landscapes",
+      "aquatic",
+      "adventure",
+    ],
+    required: true,
+  },
   reviews: [
     {
       type: Schema.Types.ObjectID,

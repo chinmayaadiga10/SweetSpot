@@ -70,7 +70,26 @@
           <div class="invalid-feedback">Please add a valid Country</div>
         </div>
       </div>
-
+      <div class="mb-3">
+        <label for="category" class="form-label">Select Category</label>
+        <select
+          name="listing[category]"
+          id="category"
+          required
+          class="form-select"
+        >
+          <option value="" disabled selected hidden>Select A Category</option>
+          <option value="trending">Trending</option>
+          <option value="beach">Beach</option>
+          <option value="cabins">Cabins</option>
+          <option value="pools">Pools</option>
+          <option value="rooms">Rooms</option>
+          <option value="castle">Castle</option>
+          <option value="landscapes">Landscapes</option>
+          <option value="aquatic">Aquatic</option>
+          <option value="adventure">Adventure</option>
+        </select>
+      </div>
       <div class="mb-3">
         <label for="location" class="form-label">Location</label>
         <input
