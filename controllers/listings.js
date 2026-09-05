@@ -1,10 +1,12 @@
 const Listing = require("../models/listing");
 
 module.exports.index = async (req, res) => {
-  const { category } = req.query;
+  const { location, category } = req.query;
   let allListings;
   if (category) {
     allListings = await Listing.find({ category: category });
+  } else if (location) {
+    allListings = await Listing.find({ location: location });
   } else {
     allListings = await Listing.find({});
   }
