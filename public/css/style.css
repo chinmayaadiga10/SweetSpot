@@ -129,3 +129,19 @@ body {
   height: 2.75rem;
   padding: 0 0.75rem;
 }
+#btn-search {
+  background-color: cyan;
+  color: #000;
+  border-radius: 0.9rem;
+}
+
+#btn-search i {
+  display: inline;
+  font-size: 0.9rem;
+  padding-right: 0.5rem;
+}
+
+#search-box {
+  border-radius: 0.9rem;
+  padding: 0 4rem;
+}
